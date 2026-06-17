@@ -26,7 +26,7 @@ func _spawn_celebration():
 		var emoji = ["⭐","💖","✨","🎉","🌟","💫"][randi() % 6]
 		var lbl = Label.new()
 		lbl.text = emoji
-		lbl.theme_override_font_sizes["font_size"] = 64
+		lbl.add_theme_font_size_override("font_size", 64)
 		lbl.position = Vector2(randf_range(80, 1000), 1920)
 		add_child(lbl)
 		var tw = create_tween()

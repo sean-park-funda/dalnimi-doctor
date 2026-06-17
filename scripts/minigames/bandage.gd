@@ -80,7 +80,7 @@ func _spawn_particles():
 	for i in range(10):
 		var lbl = Label.new()
 		lbl.text = ["✨","🩹","💛"][randi() % 3]
-		lbl.theme_override_font_sizes["font_size"] = 48
+		lbl.add_theme_font_size_override("font_size", 48)
 		lbl.position = wound_zone.position + Vector2(randf_range(-40,40), randf_range(-40,40))
 		add_child(lbl)
 		var tw = create_tween()

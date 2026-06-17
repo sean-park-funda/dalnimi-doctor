@@ -17,7 +17,7 @@ func _build_stickers():
 		var collected = GameManager.collected_stickers.get(key, false)
 		var slot = $StickerGrid.get_node_or_null(key)
 		if not slot: continue
-		slot.theme_override_font_sizes["font_size"] = 60
+		slot.add_theme_font_size_override("font_size", 60)
 		if collected:
 			slot.text = info["emoji"] + "\n" + info["label"]
 			slot.modulate = Color(1, 1, 1)

@@ -53,7 +53,7 @@ func _update_tool_tray():
 			continue
 		var btn = Button.new()
 		btn.custom_minimum_size = Vector2(200, 200)
-		btn.theme_override_font_sizes["font_size"] = 60
+		btn.add_theme_font_size_override("font_size", 60)
 		btn.text = TOOL_EMOJI.get(symptom, "?")
 		btn.pressed.connect(_on_tool_pressed.bind(symptom))
 		$ToolTrayBg/ToolTray.add_child(btn)

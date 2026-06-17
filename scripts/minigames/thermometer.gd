@@ -77,7 +77,7 @@ func _spawn_particles():
 	for i in range(12):
 		var star = Label.new()
 		star.text = ["⭐","✨","💫"][randi() % 3]
-		star.theme_override_font_sizes["font_size"] = 48
+		star.add_theme_font_size_override("font_size", 48)
 		star.position = $Thermometer.position + Vector2(randf_range(-60,60), randf_range(-60,60))
 		add_child(star)
 		var tw = create_tween()
