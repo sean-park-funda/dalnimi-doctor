@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/minigames/thermometer.gd" id="1"]
+
+[node name="Thermometer" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+offset_right = 1080.0
+offset_bottom = 1920.0
+color = Color(0.95, 0.98, 1.0)
+
+[node name="PatientChar" type="ColorRect" parent="."]
+offset_left = 290.0
+offset_top = 300.0
+offset_right = 790.0
+offset_bottom = 900.0
+color = Color(1.0, 0.92, 0.8)
+
+[node name="PatientFace" type="Label" parent="PatientChar"]
+anchors_preset = 15
+theme_override_font_sizes/font_size = 120
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "🐰\n😣"
+
+[node name="ForeheadZone" type="ColorRect" parent="."]
+offset_left = 340.0
+offset_top = 320.0
+offset_right = 740.0
+offset_bottom = 460.0
+color = Color(1.0, 0.8, 0.8, 0.3)
+mouse_filter = 2
+
+[node name="ForeheadHint" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 470.0
+offset_right = 740.0
+offset_bottom = 530.0
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+text = "↑ 이마"
+theme_override_colors/font_color = Color(0.8, 0.4, 0.4, 0.6)
+
+[node name="GuideLabel" type="Label" parent="."]
+offset_left = 80.0
+offset_top = 1000.0
+offset_right = 1000.0
+offset_bottom = 1120.0
+theme_override_font_sizes/font_size = 52
+horizontal_alignment = 1
+text = "체온계를 이마에 가져다 대요! 🌡️"
+theme_override_colors/font_color = Color(0.3, 0.5, 0.8)
+autowrap_mode = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 180.0
+offset_top = 1140.0
+offset_right = 900.0
+offset_bottom = 1200.0
+value = 0
+
+[node name="TempLabel" type="Label" parent="."]
+offset_left = 80.0
+offset_top = 1220.0
+offset_right = 1000.0
+offset_bottom = 1400.0
+theme_override_font_sizes/font_size = 72
+horizontal_alignment = 1
+text = "38.5°C"
+theme_override_colors/font_color = Color(0.9, 0.2, 0.2)
+
+[node name="Thermometer" type="ColorRect" parent="."]
+offset_left = 460.0
+offset_top = 1450.0
+offset_right = 620.0
+offset_bottom = 1750.0
+color = Color(0.8, 0.9, 1.0)
+mouse_filter = 0
+
+[node name="ThermLabel" type="Label" parent="Thermometer"]
+anchors_preset = 15
+theme_override_font_sizes/font_size = 60
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "🌡️"
+[connection signal="gui_input" from="Thermometer" to="." method="_on_thermometer_input"]
