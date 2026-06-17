@@ -5,6 +5,7 @@ var swipe_count = 0
 const TARGET_SWIPES = 3
 var dragging = false
 var swipe_start_y = 0.0
+var was_on_nose = false
 
 @onready var guide_label = $GuideLabel
 @onready var progress_label = $ProgressLabel
@@ -29,11 +30,17 @@ func _input(event):
 		var pos = event.position
 		hk_item.global_position = pos - Vector2(150, 110)
 		if nose_zone.get_global_rect().has_point(pos):
+			if not was_on_nose:
+				# 코 영역 진입 시 기준점 리셋 (아래서 드래그해 올라올 때 dy 오계산 방지)
+				swipe_start_y = pos.y
+				was_on_nose = true
 			var dy = pos.y - swipe_start_y
 			if dy > 60:
 				swipe_count += 1
 				swipe_start_y = pos.y
 				_on_swipe()
+		else:
+			was_on_nose = false
 
 func _on_swipe():
 	SoundManager.play_sfx("sfx_brush")
