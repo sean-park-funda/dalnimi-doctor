@@ -34,7 +34,7 @@ func _ready():
 
 func _update_patient_char():
 	var names = {"daltooki":"달토끼 🐰","dalkongi":"달콩이 👶","sunny":"써니 ☀️","byeoli":"별이 ⭐"}
-	$PatientLabel.text = names.get(GameManager.current_patient, "환자") + "\n😣"
+	$PatientBed/PatientLabel.text = names.get(GameManager.current_patient, "환자") + "\n😣"
 
 func _update_symptom_display():
 	var text = ""
@@ -42,11 +42,11 @@ func _update_symptom_display():
 		var done = s in GameManager.treated_symptoms
 		var mark = "✅ " if done else "• "
 		text += mark + SYMPTOM_EMOJI.get(s, s) + "\n"
-	$SymptomList.text = text
+	$SymptomBox/SymptomList.text = text
 
 func _update_tool_tray():
 	# 도구 버튼 동적 생성
-	for child in $ToolTray.get_children():
+	for child in $ToolTrayBg/ToolTray.get_children():
 		child.queue_free()
 	for symptom in GameManager.active_symptoms:
 		if symptom in GameManager.treated_symptoms:
@@ -56,7 +56,7 @@ func _update_tool_tray():
 		btn.theme_override_font_sizes["font_size"] = 60
 		btn.text = TOOL_EMOJI.get(symptom, "?")
 		btn.pressed.connect(_on_tool_pressed.bind(symptom))
-		$ToolTray.add_child(btn)
+		$ToolTrayBg/ToolTray.add_child(btn)
 
 func _on_tool_pressed(symptom: String):
 	SoundManager.play_sfx("sfx_click")
@@ -73,3 +73,4 @@ func refresh():
 	_update_tool_tray()
 	if GameManager.is_all_treated():
 		SceneTransition.change_scene("res://scenes/Recovery.tscn")
+
