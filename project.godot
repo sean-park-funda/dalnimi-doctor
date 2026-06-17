@@ -22,6 +22,7 @@ GameManager="*res://autoload/GameManager.gd"
 SoundManager="*res://autoload/SoundManager.gd"
 SaveManager="*res://autoload/SaveManager.gd"
 SceneTransition="*res://autoload/SceneTransition.gd"
+UIAnimations="*res://autoload/UIAnimations.gd"
 
 [display]
 

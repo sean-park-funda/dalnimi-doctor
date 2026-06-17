@@ -14,6 +14,17 @@ const PATIENT_COLORS = {
 	"byeoli":   Color(0.9, 0.8, 1.0),
 }
 
+func _ready():
+	_play_entry_animations()
+	UIAnimations.connect_buttons(self)
+
+func _play_entry_animations():
+	$Title.modulate.a = 0.0
+	UIAnimations.fly_in_from_top($Title, 50.0, 0.05)
+	var cards = [$PatientGrid/DaltooBt, $PatientGrid/DalkongiBt,
+				 $PatientGrid/SunnyBt, $PatientGrid/ByeoliBt]
+	UIAnimations.stagger_pop_in(cards, 0.2, 0.13)
+
 func _on_patient_pressed(patient_id: String):
 	SoundManager.play_sfx("sfx_click")
 	GameManager.start_treatment(patient_id)

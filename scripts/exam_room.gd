@@ -31,6 +31,17 @@ func _ready():
 	_update_symptom_display()
 	_update_tool_tray()
 	_update_patient_char()
+	_play_entry_animations()
+	UIAnimations.connect_buttons(self)
+
+func _play_entry_animations():
+	# 증상 박스: 왼쪽에서 슬라이드인
+	UIAnimations.fly_in_from_left($SymptomBox, 120.0, 0.1)
+	# 환자 침대: 위에서 bounce 착지
+	var bed_origin_y = $PatientBed.position.y
+	UIAnimations.bounce_land($PatientBed, bed_origin_y - 300.0, bed_origin_y, 0.05)
+	# 도구 트레이: 아래에서 슬라이드업
+	UIAnimations.fly_in_from_bottom($ToolTrayBg, 100.0, 0.3)
 
 func _update_patient_char():
 	var names = {"daltooki":"달토끼 🐰","dalkongi":"달콩이 👶","sunny":"써니 ☀️","byeoli":"별이 ⭐"}
@@ -72,5 +83,5 @@ func refresh():
 	_update_symptom_display()
 	_update_tool_tray()
 	if GameManager.is_all_treated():
-		SceneTransition.change_scene("res://scenes/Recovery.tscn")
+		SceneTransition.change_scene_success("res://scenes/Recovery.tscn")
 
