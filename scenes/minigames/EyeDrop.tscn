@@ -9,16 +9,83 @@ script = ExtResource("1")
 anchors_preset = 15
 offset_right = 1080.0
 offset_bottom = 1920.0
-color = Color(0.95, 0.97, 1.0, 1)
+color = Color(0.93, 0.95, 1.0, 1)
+
+[node name="Title" type="Label" parent="."]
+offset_left = 80.0
+offset_top = 80.0
+offset_right = 1000.0
+offset_bottom = 180.0
+theme_override_font_sizes/font_size = 56
+horizontal_alignment = 1
+text = "안약 넣기 💧"
+theme_override_colors/font_color = Color(0.1, 0.2, 0.7, 1)
 
 [node name="GuideLabel" type="Label" parent="."]
 offset_left = 80.0
-offset_top = 860.0
+offset_top = 200.0
 offset_right = 1000.0
-offset_bottom = 1060.0
-theme_override_font_sizes/font_size = 60
+offset_bottom = 320.0
+theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
-text = "준비 중..."
+autowrap_mode = 3
+text = "안약을 눈 위로 가져가서 탭!"
+theme_override_colors/font_color = Color(0.1, 0.2, 0.7, 1)
+
+[node name="PatientChar" type="ColorRect" parent="."]
+offset_left = 290.0
+offset_top = 360.0
+offset_right = 790.0
+offset_bottom = 860.0
+color = Color(1.0, 0.92, 0.8, 1)
+
+[node name="PatientFace" type="Label" parent="PatientChar"]
+anchors_preset = 15
+theme_override_font_sizes/font_size = 100
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "🐰\n😵"
+
+[node name="EyeZone" type="ColorRect" parent="."]
+offset_left = 380.0
+offset_top = 480.0
+offset_right = 700.0
+offset_bottom = 600.0
+color = Color(0.6, 0.8, 1.0, 0.4)
+
+[node name="EyeHint" type="Label" parent="."]
+offset_left = 380.0
+offset_top = 608.0
+offset_right = 700.0
+offset_bottom = 680.0
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+text = "← 눈"
+theme_override_colors/font_color = Color(0.2, 0.4, 0.8, 1)
+
+[node name="DropCountLabel" type="Label" parent="."]
+offset_left = 80.0
+offset_top = 880.0
+offset_right = 1000.0
+offset_bottom = 980.0
+theme_override_font_sizes/font_size = 52
+horizontal_alignment = 1
+text = "0 / 3 방울"
+theme_override_colors/font_color = Color(0.2, 0.4, 0.8, 1)
+
+[node name="EyeDropItem" type="ColorRect" parent="."]
+offset_left = 390.0
+offset_top = 1060.0
+offset_right = 690.0
+offset_bottom = 1300.0
+color = Color(0.8, 0.9, 1.0, 1)
+
+[node name="DropLabel" type="Label" parent="EyeDropItem"]
+anchors_preset = 15
+theme_override_font_sizes/font_size = 100
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "💧"
 
 [node name="BackButton" type="Button" parent="."]
 offset_left = 40.0
