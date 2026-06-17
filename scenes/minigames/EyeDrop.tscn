@@ -9,7 +9,7 @@ script = ExtResource("1")
 anchors_preset = 15
 offset_right = 1080.0
 offset_bottom = 1920.0
-color = Color(0.95, 0.97, 1.0)
+color = Color(0.95, 0.97, 1.0, 1)
 
 [node name="GuideLabel" type="Label" parent="."]
 offset_left = 80.0
