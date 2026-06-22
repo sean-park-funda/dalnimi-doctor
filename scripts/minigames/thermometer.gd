@@ -20,6 +20,11 @@ func _ready():
 	progress_bar.visible = false
 	progress_bar.max_value = MEASURE_TIME
 	guide_label.text = "체온계를 이마에 가져다 대요! 🌡️"
+	_play_entry_animations()
+
+func _play_entry_animations():
+	UIAnimations.fly_in_from_right(thermometer, 160.0, 0.1)
+	UIAnimations.fly_in_from_bottom(guide_label, 60.0, 0.25)
 
 func _process(delta):
 	if state == State.MEASURING:
@@ -36,6 +41,9 @@ func _on_thermometer_input(event):
 			drag_offset = thermometer.global_position - get_global_mouse_position()
 		else:
 			dragging = false
+			if not on_forehead and state == State.MEASURING:
+				# 측정 중에 이마에서 뗐을 때 — 경고 피드백
+				UIAnimations.fail_shake(guide_label)
 			if not on_forehead:
 				state = State.IDLE
 				measure_timer = 0.0
@@ -47,12 +55,12 @@ func _input(event):
 	if event is InputEventMouseMotion or event is InputEventScreenDrag:
 		var pos = get_global_mouse_position() if event is InputEventMouseMotion else event.position
 		thermometer.global_position = pos + drag_offset
-		# 이마 영역 체크
 		var rect = forehead_zone.get_global_rect()
 		on_forehead = rect.has_point(thermometer.global_position)
 		if on_forehead and state == State.IDLE:
 			state = State.MEASURING
 			progress_bar.visible = true
+			UIAnimations.pop_in(progress_bar)
 			guide_label.text = "잠깐만요... 재는 중이에요! ⏱️"
 			SoundManager.play_sfx("sfx_beep")
 		elif not on_forehead and state == State.MEASURING:
@@ -66,8 +74,11 @@ func _show_result():
 	dragging = false
 	SoundManager.play_sfx("sfx_beep")
 	temp_label.visible = true
+	temp_label.modulate.a = 0.0
 	temp_label.text = "38.5°C\n열이 있어요! 😰"
+	UIAnimations.result_pop_in(temp_label)
 	guide_label.text = "잘 했어요! ✅"
+	UIAnimations.success_flash(guide_label)
 	_spawn_particles()
 	await get_tree().create_timer(2.0).timeout
 	GameManager.mark_treated("fever")

@@ -15,6 +15,12 @@ var over_eye = false
 func _ready():
 	guide_label.text = "안약을 눈 위로 가져가서 탭! (%d번)" % TARGET_DROPS
 	drop_count_label.text = "0 / %d 방울" % TARGET_DROPS
+	_play_entry_animations()
+
+func _play_entry_animations():
+	UIAnimations.fly_in_from_right(drop_item, 140.0, 0.1)
+	UIAnimations.fly_in_from_bottom(guide_label, 60.0, 0.25)
+	UIAnimations.pop_in(drop_count_label, 0.35)
 
 func _input(event):
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
@@ -64,6 +70,8 @@ func _spawn_drop():
 func _complete():
 	dragging = false
 	guide_label.text = "눈이 시원해졌어요! ✅"
+	UIAnimations.success_flash(guide_label)
+	UIAnimations.celebration_pop(patient_face)
 	patient_face.text = "🐰\n😊"
 	eye_zone.color = Color(0.4, 0.9, 0.4, 0.5)
 	_spawn_particles()

@@ -18,6 +18,11 @@ func _ready():
 	progress_bar.max_value = HOLD_TIME
 	progress_bar.value = 0.0
 	guide_label.text = "청진기를 배에 올려두고 기다려요!"
+	_play_entry_animations()
+
+func _play_entry_animations():
+	UIAnimations.fly_in_from_right(stetho_item, 150.0, 0.1)
+	UIAnimations.fly_in_from_bottom(guide_label, 60.0, 0.25)
 
 func _process(delta):
 	if on_belly and not done:
@@ -27,10 +32,13 @@ func _process(delta):
 		if hold_timer >= HOLD_TIME:
 			_complete()
 	elif not on_belly and not done:
+		var was_holding = hold_timer > 0.5
 		hold_timer = maxf(hold_timer - delta * 2.0, 0.0)
 		progress_bar.value = hold_timer
 		if hold_timer == 0.0:
 			progress_label.text = "청진기를 배에 올려두세요"
+			if was_holding:
+				UIAnimations.fail_shake(guide_label)
 
 func _input(event):
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
@@ -56,6 +64,8 @@ func _complete():
 	dragging = false
 	on_belly = false
 	guide_label.text = "심장 소리 잘 들었어요! ✅"
+	UIAnimations.success_flash(guide_label)
+	UIAnimations.celebration_pop(patient_face)
 	patient_face.text = "🐰\n😌"
 	progress_label.text = "💓 정상이에요!"
 	_spawn_particles()

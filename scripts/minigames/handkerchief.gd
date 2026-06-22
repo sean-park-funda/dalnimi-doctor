@@ -16,6 +16,12 @@ var was_on_nose = false
 func _ready():
 	guide_label.text = "손수건으로 코를 닦아줘요! (위→아래 %d번)" % TARGET_SWIPES
 	progress_label.text = "0 / %d" % TARGET_SWIPES
+	_play_entry_animations()
+
+func _play_entry_animations():
+	UIAnimations.fly_in_from_left(hk_item, 140.0, 0.1)
+	UIAnimations.fly_in_from_bottom(guide_label, 60.0, 0.25)
+	UIAnimations.pop_in(progress_label, 0.35)
 
 func _input(event):
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
@@ -55,6 +61,8 @@ func _on_swipe():
 func _complete():
 	dragging = false
 	guide_label.text = "깨끗해졌어요! ✅"
+	UIAnimations.success_flash(guide_label)
+	UIAnimations.celebration_pop(patient_face)
 	patient_face.text = "🐰\n😊"
 	_spawn_particles()
 	await get_tree().create_timer(2.0).timeout

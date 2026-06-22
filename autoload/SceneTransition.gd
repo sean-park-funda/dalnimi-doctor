@@ -1,7 +1,11 @@
 extends CanvasLayer
 
 var overlay: ColorRect
+var shader_mat: ShaderMaterial
 var tween: Tween
+
+# 원이 모서리까지 덮으려면 약 1.1 (비율 보정 포함)
+const CIRCLE_MAX = 1.1
 
 func _ready():
 	layer = 10
@@ -11,28 +15,61 @@ func _ready():
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
 
+	# 셰이더 머티리얼 미리 준비
+	var shader = load("res://shaders/circle_wipe.gdshader")
+	shader_mat = ShaderMaterial.new()
+	shader_mat.shader = shader
+	shader_mat.set_shader_parameter("progress", 0.0)
+
+# 기본 전환 — 원형 와이프
 func change_scene(path: String) -> void:
-	_do_transition(path, Color(0, 0, 0, 1))
+	_circle_wipe_out(path)
 
-# 치료 성공 후 노란 플래시 전환
+# 치료 성공 전환 — 노란 플래시 후 원형 와이프
 func change_scene_success(path: String) -> void:
-	_do_transition(path, Color(1.0, 0.92, 0.1, 1))
-
-func _do_transition(path: String, fade_color: Color) -> void:
+	overlay.material = null
+	overlay.color = Color(1.0, 0.92, 0.1, 0)
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.color = Color(fade_color.r, fade_color.g, fade_color.b, 0)
 	if tween: tween.kill()
 	tween = create_tween()
-	tween.tween_property(overlay, "color:a", 1.0, 0.2)
+	tween.tween_property(overlay, "color:a", 1.0, 0.15)
 	tween.tween_callback(func():
+		overlay.color = Color(0, 0, 0, 0)
 		get_tree().change_scene_to_file(path)
-		_fade_in()
+		_circle_wipe_in()
 	)
 
-func _fade_in() -> void:
+# ── 원형 와이프 구현 ─────────────────────────────────────
+
+func _circle_wipe_out(path: String) -> void:
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.color = Color.WHITE  # 셰이더가 색상 제어
+	overlay.material = shader_mat
+	shader_mat.set_shader_parameter("progress", 0.0)
+
 	if tween: tween.kill()
 	tween = create_tween()
-	tween.tween_property(overlay, "color:a", 0.0, 0.25)
+	tween.tween_method(
+		func(v: float): shader_mat.set_shader_parameter("progress", v),
+		0.0, CIRCLE_MAX, 0.38
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_callback(func():
+		get_tree().change_scene_to_file(path)
+		_circle_wipe_in()
+	)
+
+func _circle_wipe_in() -> void:
+	overlay.material = shader_mat
+	shader_mat.set_shader_parameter("progress", CIRCLE_MAX)
+
+	if tween: tween.kill()
+	tween = create_tween()
+	tween.tween_method(
+		func(v: float): shader_mat.set_shader_parameter("progress", v),
+		CIRCLE_MAX, 0.0, 0.38
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_callback(func():
+		overlay.material = null
+		overlay.color = Color(0, 0, 0, 0)
 		overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	)

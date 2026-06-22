@@ -16,6 +16,12 @@ var swipe_start_x = 0.0
 func _ready():
 	guide_label.text = "칫솔을 좌우로 문질러요! (%d번)" % TARGET_SWIPES
 	progress_label.text = "0 / %d" % TARGET_SWIPES
+	_play_entry_animations()
+
+func _play_entry_animations():
+	UIAnimations.fly_in_from_right(brush_item, 140.0, 0.1)
+	UIAnimations.fly_in_from_bottom(guide_label, 60.0, 0.25)
+	UIAnimations.pop_in(progress_label, 0.35)
 
 func _input(event):
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
@@ -51,6 +57,8 @@ func _on_swipe():
 func _complete():
 	dragging = false
 	guide_label.text = "치아가 반짝반짝! ✅"
+	UIAnimations.success_flash(guide_label)
+	UIAnimations.celebration_pop(patient_face)
 	patient_face.text = "🐰\n😁"
 	teeth_label.text = "🦷✨🦷"
 	_spawn_particles()

@@ -16,6 +16,12 @@ func _ready():
 	bandage_item.visible = false
 	guide_label.text = "연고를 상처에 발라요! (문지르기 2번)"
 	progress_label.text = "0 / 2"
+	_play_entry_animations()
+
+func _play_entry_animations():
+	UIAnimations.fly_in_from_left(ointment_item, 140.0, 0.1)
+	UIAnimations.fly_in_from_bottom(guide_label, 60.0, 0.25)
+	UIAnimations.pop_in(progress_label, 0.35)
 
 func _input(event):
 	match state:
@@ -69,6 +75,7 @@ func _complete():
 	state = State.DONE
 	SoundManager.play_sfx("sfx_bandage")
 	guide_label.text = "다 나았어요! ✅"
+	UIAnimations.success_flash(guide_label)
 	wound_zone.color = Color(0.8, 1.0, 0.8, 0.8)
 	bandage_item.global_position = wound_zone.global_position
 	_spawn_particles()
