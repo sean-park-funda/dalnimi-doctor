@@ -61,8 +61,9 @@ func _circle_wipe_out(path: String) -> void:
 func _circle_wipe_in() -> void:
 	overlay.material = shader_mat
 	shader_mat.set_shader_parameter("progress", CIRCLE_MAX)
+	# wipe-in은 이미 씬이 바뀐 후 — 입력 차단 즉시 해제
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	if tween: tween.kill()
 	tween = create_tween()
 	tween.tween_method(
 		func(v: float): shader_mat.set_shader_parameter("progress", v),
@@ -71,5 +72,4 @@ func _circle_wipe_in() -> void:
 	tween.tween_callback(func():
 		overlay.material = null
 		overlay.color = Color(0, 0, 0, 0)
-		overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	)
