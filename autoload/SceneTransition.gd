@@ -51,7 +51,7 @@ func _circle_wipe_out(path: String) -> void:
 	tween = create_tween()
 	tween.tween_method(
 		func(v: float): shader_mat.set_shader_parameter("progress", v),
-		0.0, CIRCLE_MAX, 0.38
+		0.0, CIRCLE_MAX, 0.6
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_callback(func():
 		get_tree().change_scene_to_file(path)
@@ -66,7 +66,7 @@ func _circle_wipe_in() -> void:
 	tween = create_tween()
 	tween.tween_method(
 		func(v: float): shader_mat.set_shader_parameter("progress", v),
-		CIRCLE_MAX, 0.0, 0.38
+		CIRCLE_MAX, 0.0, 0.6
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_callback(func():
 		overlay.material = null
